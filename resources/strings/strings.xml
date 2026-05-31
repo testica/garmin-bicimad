@@ -1,0 +1,93 @@
+<strings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+
+    <!-- App -->
+    <string id="AppName">BiciMAD</string>
+
+    <!-- Main menu -->
+    <string id="MenuStations">View Stations</string>
+    <string id="MenuStationsSub">Nearby by GPS</string>
+    <string id="MenuTrips">Trips</string>
+    <string id="MenuTripsSub">Current and history</string>
+    <string id="MenuUnlock">Unlock Bike</string>
+    <string id="MenuUnlockSub">Find and unlock a bike</string>
+    <string id="MenuLogin">Sign In</string>
+    <string id="MenuLoginSub">Not connected</string>
+    <string id="MenuLogout">Sign Out</string>
+
+    <!-- Station search -->
+    <string id="StationMenuTitle">BiciMAD Stations</string>
+    <string id="StationNearby">Nearby</string>
+    <string id="StationNearbySub">Uses GPS</string>
+    <string id="StationSearchByName">Search by Name</string>
+    <string id="StationSearchSub">Type the name</string>
+    <string id="StationNearbyTitle">Nearby</string>
+    <string id="StationResultsTitle">Results</string>
+
+    <!-- Login -->
+    <string id="LoginTitle">Sign In</string>
+    <string id="LoginEmail">Email</string>
+    <string id="LoginPassword">Password</string>
+    <string id="LoginConnect">Connect →</string>
+    <string id="LoginTapToType">Tap to type...</string>
+    <string id="LoginTapToTypeNum">Tap to enter number</string>
+    <string id="LoginMissingFields">Enter email and password</string>
+    <string id="LoginRequired">Sign in first</string>
+    <string id="LoginCredentialsError">Incorrect credentials</string>
+    <string id="LoginConnecting">Connecting...</string>
+
+    <!-- Plate / unlock -->
+    <string id="PlateMenuTitle">Unlock Bike</string>
+    <string id="PlateLabel">Plate</string>
+    <string id="PlateReserve">Unlock</string>
+    <string id="PlateMissingPlate">Enter the plate first</string>
+    <string id="PlateAnchor">Anchor</string>
+    <string id="PlateDistance">Distance</string>
+    <string id="PlateConfirmQuestion">Confirm?</string>
+    <string id="BikeUnlocked">Bike unlocked</string>
+    <string id="BikeNotAvailable">Not available</string>
+    <string id="BikeNotFound">Not found</string>
+
+    <!-- Progress / loading -->
+    <string id="GpsSearching">Searching GPS</string>
+    <string id="Loading">Loading...</string>
+    <string id="LoadingTrips">Loading trips</string>
+    <string id="Verifying">Verifying</string>
+    <string id="Unlocking">Unlocking</string>
+    <string id="Reserving">Unlocking...</string>
+    <string id="Searching">Searching</string>
+
+    <!-- Errors / retry -->
+    <string id="NetworkError">Network error</string>
+    <string id="NetworkErrorRetry">Network error\nRetry?</string>
+    <string id="NoResults">No results</string>
+    <string id="NoResultsRetry">No results\nSearch again?</string>
+    <string id="NoResultsSearchAgain">No results\nSearch again?</string>
+    <string id="SelectToGoBack">SELECT to go back</string>
+    <string id="SelectToRetry">SELECT to retry</string>
+
+    <!-- Trips -->
+    <string id="TripsTitle">My Trips</string>
+    <string id="TripActive">In progress</string>
+    <string id="TripHistory">History</string>
+    <string id="NoTrips">No trips recorded</string>
+    <string id="ActiveTripTitle">Active Trip</string>
+    <string id="TripBike">Bike</string>
+    <string id="TripFrom">From</string>
+    <string id="TripStation">Station</string>
+
+    <!-- Reservation -->
+    <string id="ReservationConfirm">Confirm reservation?</string>
+    <string id="ReservationOk">Reserved!</string>
+    <string id="ReservationError">Booking failed</string>
+    <string id="GoToStation">Go to the station</string>
+    <string id="Reserved">RESERVED</string>
+    <string id="UseYourApp">and use your BiciMAD app</string>
+    <string id="NoReservation">No Reservation</string>
+
+    <!-- General -->
+    <string id="Cancel">Cancel</string>
+    <string id="Confirm">Confirm</string>
+    <string id="Back">Back</string>
+    <string id="GoBike">Go by bike</string>
+
+</strings>

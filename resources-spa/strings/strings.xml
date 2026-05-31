@@ -1,0 +1,93 @@
+<strings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+
+    <!-- App -->
+    <string id="AppName">BiciMAD</string>
+
+    <!-- Menú principal -->
+    <string id="MenuStations">Ver Estaciones</string>
+    <string id="MenuStationsSub">Cercanas por GPS</string>
+    <string id="MenuTrips">Viajes</string>
+    <string id="MenuTripsSub">Actual e historial</string>
+    <string id="MenuUnlock">Desbloquear Bici</string>
+    <string id="MenuUnlockSub">Busca y reserva una bici</string>
+    <string id="MenuLogin">Iniciar Sesión</string>
+    <string id="MenuLoginSub">No conectado</string>
+    <string id="MenuLogout">Cerrar Sesión</string>
+
+    <!-- Búsqueda de estaciones -->
+    <string id="StationMenuTitle">Estaciones BiciMAD</string>
+    <string id="StationNearby">Ver Cercanas</string>
+    <string id="StationNearbySub">Usa el GPS</string>
+    <string id="StationSearchByName">Buscar por Nombre</string>
+    <string id="StationSearchSub">Escribe el nombre</string>
+    <string id="StationNearbyTitle">Cercanas</string>
+    <string id="StationResultsTitle">Resultados</string>
+
+    <!-- Login -->
+    <string id="LoginTitle">Iniciar Sesión</string>
+    <string id="LoginEmail">Email</string>
+    <string id="LoginPassword">Contraseña</string>
+    <string id="LoginConnect">Conectar →</string>
+    <string id="LoginTapToType">Toca para escribir...</string>
+    <string id="LoginTapToTypeNum">Toca para escribir nº</string>
+    <string id="LoginMissingFields">Introduce email y contraseña</string>
+    <string id="LoginRequired">Inicia sesión primero</string>
+    <string id="LoginCredentialsError">Credenciales incorrectas</string>
+    <string id="LoginConnecting">Conectando...</string>
+
+    <!-- Placa / desbloqueo -->
+    <string id="PlateMenuTitle">Desbloquear Bici</string>
+    <string id="PlateLabel">Placa</string>
+    <string id="PlateReserve">Reservar</string>
+    <string id="PlateMissingPlate">Introduce la placa primero</string>
+    <string id="PlateAnchor">Anclaje</string>
+    <string id="PlateDistance">Distancia</string>
+    <string id="PlateConfirmQuestion">¿Confirmar?</string>
+    <string id="BikeUnlocked">Bici reservada</string>
+    <string id="BikeNotAvailable">No disponible</string>
+    <string id="BikeNotFound">No encontrada</string>
+
+    <!-- Progreso / carga -->
+    <string id="GpsSearching">Buscando GPS</string>
+    <string id="Loading">Cargando...</string>
+    <string id="LoadingTrips">Cargando viajes</string>
+    <string id="Verifying">Verificando</string>
+    <string id="Unlocking">Desbloqueando</string>
+    <string id="Reserving">Reservando...</string>
+    <string id="Searching">Buscando</string>
+
+    <!-- Errores / reintentar -->
+    <string id="NetworkError">Error de red</string>
+    <string id="NetworkErrorRetry">Error de red\n¿Reintentar?</string>
+    <string id="NoResults">Sin resultados</string>
+    <string id="NoResultsRetry">Sin resultados\n¿Buscar de nuevo?</string>
+    <string id="NoResultsSearchAgain">Sin resultados\n¿Buscar de nuevo?</string>
+    <string id="SelectToGoBack">SELECT para volver</string>
+    <string id="SelectToRetry">SELECT para reintentar</string>
+
+    <!-- Viajes -->
+    <string id="TripsTitle">Mis Viajes</string>
+    <string id="TripActive">En curso</string>
+    <string id="TripHistory">Historial</string>
+    <string id="NoTrips">Sin viajes registrados</string>
+    <string id="ActiveTripTitle">Viaje en Curso</string>
+    <string id="TripBike">Bici</string>
+    <string id="TripFrom">Desde</string>
+    <string id="TripStation">Estación</string>
+
+    <!-- Reserva -->
+    <string id="ReservationConfirm">¿Confirmar reserva?</string>
+    <string id="ReservationOk">¡Reservado!</string>
+    <string id="ReservationError">Sin Reserva</string>
+    <string id="GoToStation">Dirígete a la estación</string>
+    <string id="Reserved">RESERVADO</string>
+    <string id="UseYourApp">y usa tu app BiciMAD</string>
+    <string id="NoReservation">Sin Reserva</string>
+
+    <!-- General -->
+    <string id="Cancel">Cancelar</string>
+    <string id="Confirm">Confirmar</string>
+    <string id="Back">Atrás</string>
+    <string id="GoBike">Ve en bici</string>
+
+</strings>

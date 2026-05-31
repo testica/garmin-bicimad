@@ -1,0 +1,128 @@
+import Toybox.Application;
+import Toybox.Lang;
+import Toybox.WatchUi;
+import Toybox.Time;
+
+class bicimadApp extends Application.AppBase {
+    public var positionManager as PositionManager;
+    public var biciMadService  as BiciMadService;
+    public var mainMenu        as BiciMadMenu? = null;
+
+    private var _userToken        as String? = null;
+    private var _userId           as String? = null;
+    private var _userEmail        as String? = null;
+    private var _tokenExpiry      as Long    = 0l;
+    private var _anonToken        as String? = null;
+    private var _anonTokenExpiry  as Long    = 0l;
+    private var _lastLat          as Double  = 40.4168d;
+    private var _lastLon          as Double  = -3.7038d;
+    private var _allStations      as Array?  = null;
+
+    function initialize() {
+        AppBase.initialize();
+        positionManager = new PositionManager();
+        biciMadService  = new BiciMadService();
+    }
+
+    function onStart(state as Dictionary?) as Void {
+        var storedToken = Application.Storage.getValue("token") as String?;
+        if (storedToken != null && !storedToken.equals("")) { _userToken = storedToken; }
+        var storedEmail = Application.Storage.getValue("email") as String?;
+        if (storedEmail != null) { _userEmail = storedEmail; }
+        var storedId = Application.Storage.getValue("userId") as String?;
+        if (storedId != null) { _userId = storedId; }
+        var storedExpiry = Application.Storage.getValue("tokenExpiry") as Long?;
+        if (storedExpiry != null) { _tokenExpiry = storedExpiry; }
+        var storedAnon = Application.Storage.getValue("anonToken") as String?;
+        if (storedAnon != null && !storedAnon.equals("")) { _anonToken = storedAnon; }
+        var storedAnonExpiry = Application.Storage.getValue("anonTokenExpiry") as Long?;
+        if (storedAnonExpiry != null) { _anonTokenExpiry = storedAnonExpiry; }
+    }
+
+    function onStop(state as Dictionary?) as Void {
+        positionManager.stopGPS();
+    }
+
+    function getInitialView() as [Views] or [Views, InputDelegates] {
+        var menu = new BiciMadMenu();
+        mainMenu = menu;
+        return [ menu, new BiciMadMenuDelegate(menu) ];
+    }
+
+    // ── Token ────────────────────────────────────────────────────────────────
+
+    function getUserToken() as String? { return _userToken; }
+    function setUserToken(token as String?) as Void {
+        _userToken = token;
+        Application.Storage.setValue("token", token != null ? token : "");
+    }
+
+    function isLoggedIn() as Boolean {
+        if (_userToken == null || _userToken.equals("")) { return false; }
+        if (_tokenExpiry > 0l) {
+            if (Time.now().value().toLong() >= _tokenExpiry) { _clearSession(); return false; }
+        }
+        return true;
+    }
+
+    function setTokenExpiry(expirySec as Long) as Void {
+        _tokenExpiry = expirySec;
+        Application.Storage.setValue("tokenExpiry", expirySec);
+    }
+
+    function logout() as Void { _clearSession(); }
+
+    private function _clearSession() as Void {
+        _userToken = null; _userId = null; _tokenExpiry = 0l;
+        Application.Storage.setValue("token", "");
+        Application.Storage.setValue("userId", "");
+        Application.Storage.setValue("tokenExpiry", 0l);
+    }
+
+    // ── User data ────────────────────────────────────────────────────────────
+
+    function getUserId() as String? { return _userId; }
+    function setUserId(id as String?) as Void {
+        _userId = id;
+        Application.Storage.setValue("userId", id != null ? id : "");
+    }
+
+    function getUserEmail() as String? { return _userEmail; }
+    function setUserEmail(email as String?) as Void {
+        _userEmail = email;
+        Application.Storage.setValue("email", email != null ? email : "");
+    }
+
+    // ── Last GPS position ────────────────────────────────────────────────────
+
+    function getLastLat() as Double { return _lastLat; }
+    function getLastLon() as Double { return _lastLon; }
+    function setLastLocation(lat as Double, lon as Double) as Void {
+        _lastLat = lat; _lastLon = lon;
+    }
+
+    // ── Anonymous token ──────────────────────────────────────────────────────
+
+    function getAnonToken() as String? { return _anonToken; }
+    function setAnonToken(token as String, expirySec as Long) as Void {
+        _anonToken = token; _anonTokenExpiry = expirySec;
+        Application.Storage.setValue("anonToken", token);
+        Application.Storage.setValue("anonTokenExpiry", expirySec);
+    }
+    function isAnonTokenValid() as Boolean {
+        if (_anonToken == null || _anonToken.equals("")) { return false; }
+        if (_anonTokenExpiry > 0l) {
+            return Time.now().value().toLong() < _anonTokenExpiry - 300l;
+        }
+        return true;
+    }
+
+    // ── Station cache ────────────────────────────────────────────────────────
+
+    function getAllStations() as Array? { return _allStations; }
+    function setAllStations(stations as Array) as Void { _allStations = stations; }
+}
+
+function getApp() as bicimadApp {
+    return Application.getApp() as bicimadApp;
+}

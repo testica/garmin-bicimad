@@ -1,0 +1,64 @@
+# Garmin Connect IQ / Monkey C build output
+bin/
+*.prg
+*.iq
+
+# Generated resources
+generated/
+*.tmp
+
+# Eclipse / Monkey C plugin files
+.settings/
+.project
+.cproject
+
+# Simulator cache & logs
+.simulator/
+simulator.log
+*.simlog
+
+# Temporary files
+*.bak
+*.tmp
+*.swp
+*~
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# VS Code
+.vscode/
+
+# IntelliJ / JetBrains
+.idea/
+*.iml
+
+# Local test artifacts
+*.zip
+*.tar
+*.tar.gz
+
+# Node.js / NPM
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn
+package-lock.json
+yarn.lock
+.env
+.env.*
+
+# ── BiciMAD project-specific ───────────────────────────────────────────────
+
+# Tinymetrix token and app properties — contains your private API token.
+# Copy resources/properties.xml.example → resources/properties.xml and fill in your token.
+resources/properties.xml
+
+# Barrel configuration — contains absolute paths specific to your machine.
+# Copy barrels.jungle.example → barrels.jungle and set the barrel path.
+barrels.jungle

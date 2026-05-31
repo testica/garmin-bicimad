@@ -1,0 +1,17 @@
+{
+  "name": "bicimad-garmin-proxy",
+  "version": "1.0.0",
+  "description": "Proxy backend for the BiciMAD Garmin Connect IQ watch app",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
