@@ -263,14 +263,14 @@ The `accessToken` is stored in `Application.Storage` and persists across restart
 
 1. Install the [Garmin Connect IQ SDK](https://developer.garmin.com/connect-iq/sdk/)
 
-2. **Install TinyMetrix barrel** — Required for analytics and crash reporting
+2. **Install [TinyMetrix](https://tinymetrix.com) barrel** — Required for analytics and crash reporting
 
    **Option A: Using VSCode (Recommended)**
 
    1. Open the project in VSCode with the Garmin Connect IQ extension
    2. Press `Cmd+Shift+P` (Mac) or `Ctrl+Shift+P` (Windows/Linux)
    3. Type and select `Monkey C: Configure Monkey Barrel`
-   4. Download the TinyMetrix barrel from: https://tinymetrix.com/assets/binaries/tinymetrix-2.1.6.barrel
+   4. Download the [TinyMetrix](https://tinymetrix.com) barrel from: https://tinymetrix.com/assets/binaries/tinymetrix-2.1.6.barrel
    5. Select the downloaded `.barrel` file when prompted
 
    **Option B: Manual installation**
@@ -292,7 +292,7 @@ The `accessToken` is stored in `Application.Storage` and persists across restart
    cp resources/properties.xml.example resources/properties.xml
    ```
 
-   The example file includes a `MOCK_TOKEN` that works for development. For production, edit `resources/properties.xml` and replace `MOCK_TOKEN` with your actual TinyMetrix token.
+   The example file includes a `MOCK_TOKEN` that works for development. For production, edit `resources/properties.xml` and replace `MOCK_TOKEN` with your actual [TinyMetrix](https://tinymetrix.com) token.
 
 ### Proxy Backend
 
