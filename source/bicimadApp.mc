@@ -2,48 +2,73 @@ import Toybox.Application;
 import Toybox.Lang;
 import Toybox.WatchUi;
 import Toybox.Time;
+import Tinymetrix;
 
-class bicimadApp extends Application.AppBase {
-    public var positionManager as PositionManager;
-    public var biciMadService  as BiciMadService;
-    public var mainMenu        as BiciMadMenu? = null;
+class bicimadApp extends Tinymetrix.ApplicationBase {
+    public var positionManager as PositionManager?;
+    public var biciMadService  as BiciMadService?;
 
-    private var _userToken        as String? = null;
-    private var _userId           as String? = null;
-    private var _userEmail        as String? = null;
-    private var _tokenExpiry      as Long    = 0l;
+    // Reference to the main menu so it can be refreshed after login/logout
+    public var mainMenu as BiciMadMenu? = null;
+
+    // -- User token (personal login, required for reservations) --
+    private var _userToken    as String? = null;
+    private var _userId       as String? = null;
+    private var _userEmail    as String? = null;
+    private var _tokenExpiry  as Long    = 0l;
+
+    // -- Anonymous app token (no account needed, used for reading stations) --
     private var _anonToken        as String? = null;
     private var _anonTokenExpiry  as Long    = 0l;
-    private var _lastLat          as Double  = 40.4168d;
-    private var _lastLon          as Double  = -3.7038d;
-    private var _allStations      as Array?  = null;
+    private var _lastLat      as Double  = 40.4168d;
+    private var _lastLon      as Double  = -3.7038d;
+    private var _allStations  as Array?  = null;
 
     function initialize() {
-        AppBase.initialize();
-        positionManager = new PositionManager();
-        biciMadService  = new BiciMadService();
+        Tinymetrix.ApplicationBase.initialize({
+            "syncDelay" => 21600,  // Sync every 6 hours
+        });
     }
 
     function onStart(state as Dictionary?) as Void {
+        Tinymetrix.ApplicationBase.onStart(state);
+
+        // Load persistent session
         var storedToken = Application.Storage.getValue("token") as String?;
-        if (storedToken != null && !storedToken.equals("")) { _userToken = storedToken; }
+        if (storedToken != null && !storedToken.equals("")) {
+            _userToken = storedToken;
+        }
         var storedEmail = Application.Storage.getValue("email") as String?;
         if (storedEmail != null) { _userEmail = storedEmail; }
         var storedId = Application.Storage.getValue("userId") as String?;
         if (storedId != null) { _userId = storedId; }
+
+        // Load token expiry date
         var storedExpiry = Application.Storage.getValue("tokenExpiry") as Long?;
         if (storedExpiry != null) { _tokenExpiry = storedExpiry; }
+
+        // Load persisted anonymous token
         var storedAnon = Application.Storage.getValue("anonToken") as String?;
         if (storedAnon != null && !storedAnon.equals("")) { _anonToken = storedAnon; }
         var storedAnonExpiry = Application.Storage.getValue("anonTokenExpiry") as Long?;
         if (storedAnonExpiry != null) { _anonTokenExpiry = storedAnonExpiry; }
+
+        // Set Tinymetrix user ID if logged in
+        if (isLoggedIn() && _userEmail != null) {
+            Tinymetrix.Client.setUserId(_userEmail);
+        }
     }
 
     function onStop(state as Dictionary?) as Void {
-        positionManager.stopGPS();
+        Tinymetrix.ApplicationBase.onStop(state);
+        if (positionManager != null) { positionManager.stopGPS(); }
     }
 
-    function getInitialView() as [Views] or [Views, InputDelegates] {
+    // Replaces getInitialView() — return your views and delegates here
+    function onCreateView() as [Views] or [Views, InputDelegates] {
+        positionManager = new PositionManager();
+        biciMadService  = new BiciMadService();
+
         var menu = new BiciMadMenu();
         mainMenu = menu;
         return [ menu, new BiciMadMenuDelegate(menu) ];
