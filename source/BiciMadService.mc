@@ -484,4 +484,11 @@ class BiciMadService {
     function distanceFromUser(lat as Double, lon as Double) as Number {
         return calcDistance(_lastLat, _lastLon, lat, lon).toNumber();
     }
+
+    // Update saved location (called before unlock to ensure fresh coordinates)
+    function updateLocation(lat as Double, lon as Double) as Void {
+        _lastLat = lat;
+        _lastLon = lon;
+        getApp().setLastLocation(lat, lon);
+    }
 }
