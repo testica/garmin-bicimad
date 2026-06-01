@@ -313,16 +313,6 @@ private const URL_CHECK  = "https://your-proxy.example.com/api/check";
 private const URL_UNLOCK = "https://your-proxy.example.com/api/unlock";
 ```
 
-### Update Station Coordinates
-
-The app bundles static coordinates for all 632 stations (`source/StationsData.mc`) to avoid loading 296 KB over the watch's network buffer. Refresh when EMT adds new stations (~once a year):
-
-```bash
-./update_stations.sh
-```
-
-Fetches fresh data from the [GBFS feed](https://madrid.publicbikesystem.net/customer/gbfs/v3.0/station_information) and regenerates `StationsData.mc`.
-
 ---
 
 ## Project Structure
@@ -352,8 +342,7 @@ bicimad/
 │   ├── index.js                 # Express server — all 4 API endpoints
 │   └── package.json
 ├── manifest.xml                 # App manifest (permissions, 140+ target devices)
-├── monkey.jungle                # Build configuration
-└── update_stations.sh           # Refresh station coordinates from GBFS
+└── monkey.jungle                # Build configuration
 ```
 
 ---
