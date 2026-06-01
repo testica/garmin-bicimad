@@ -2,6 +2,8 @@ import Toybox.Application;
 import Toybox.Lang;
 import Toybox.WatchUi;
 import Toybox.Time;
+import Toybox.System;
+import Toybox.Cryptography;
 import Tinymetrix;
 
 class bicimadApp extends Tinymetrix.ApplicationBase {
@@ -23,6 +25,11 @@ class bicimadApp extends Tinymetrix.ApplicationBase {
     private var _lastLat      as Double  = 40.4168d;
     private var _lastLon      as Double  = -3.7038d;
     private var _allStations  as Array?  = null;
+
+    // -- Device identity --
+    // Unique ID generated once on first install; persists across restarts.
+    // Identifies this watch in the BiciMAD "connected devices" list.
+    private var _deviceId as String? = null;
 
     function initialize() {
         Tinymetrix.ApplicationBase.initialize({
@@ -140,6 +147,43 @@ class bicimadApp extends Tinymetrix.ApplicationBase {
             return Time.now().value().toLong() < _anonTokenExpiry - 300l;
         }
         return true;
+    }
+
+    // ── Device identity ──────────────────────────────────────────────────────
+
+    function getDeviceId() as String {
+        // Hardware ID: stable across installs, no storage needed
+        var settings = System.getDeviceSettings();
+        if ((settings has :uniqueIdentifier) && settings.uniqueIdentifier != null) {
+            return settings.uniqueIdentifier as String;
+        }
+        // Fallback for older firmware: generate once and persist
+        if (_deviceId == null || (_deviceId as String).equals("")) {
+            var stored = Application.Storage.getValue("deviceId") as String?;
+            if (stored != null && !stored.equals("")) {
+                _deviceId = stored;
+            } else {
+                var bytes = Cryptography.randomBytes(8) as ByteArray;
+                var hex   = "" as String;
+                for (var i = 0; i < bytes.size(); i++) {
+                    hex += (bytes[i] & 0xFF).format("%02x");
+                }
+                _deviceId = hex;
+                Application.Storage.setValue("deviceId", _deviceId);
+            }
+        }
+        return _deviceId as String;
+    }
+
+    // Returns a JSON object string describing this Garmin device.
+    // Mirrors the format the Android app sends for Build info.
+    function getDeviceModel() as String {
+        var settings  = System.getDeviceSettings();
+        var partNum   = settings.partNumber;
+        var modelStr  = (partNum != null && !(partNum as String).equals(""))
+            ? (partNum as String)
+            : "watch";
+        return "{\"brand\":\"Garmin\",\"model\":\"" + modelStr + "\"}";
     }
 
     // ── Station cache ────────────────────────────────────────────────────────

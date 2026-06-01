@@ -14,7 +14,8 @@ Find nearby stations, check availability, unlock bikes by plate number, and view
 | **Stations by GPS** | Find the nearest BiciMAD stations sorted by walking distance |
 | **Search by name** | Type a station name and get matching results |
 | **Unlock by plate** | Enter a bike's plate number — the app verifies it and physically unlocks the dock |
-| **Trip history** | See your last 5 trips and any active trip in progress |
+| **Fresh GPS for unlock** | GPS location is refreshed before every unlock (cached up to 10 min); avoids "too far from bike" rejections |
+| **Trip history** | Sub-menu: active trip (if any) and last 5 completed trips in separate sections |
 | **Secure login** | Authenticates with your BiciMAD account via the MPass API |
 | **Persistent session** | Token stored on-device — no need to login on every use |
 | **Bilingual** | Full English and Spanish support (auto-selected by device language) |
@@ -31,11 +32,14 @@ Main Menu
 │   │                     11/25 · 57m
 │   └── Search by Name ──→ TextPicker ──→ ProgressBar ──→ Station list
 ├── Trips  (logged in only)
-│   ├── Active Trip ──→ Bike #, departure station, start time
-│   └── History     ──→ Last 5 trips: date, station, cost, duration
+│   └── ProgressBar (fetch) ──→ Sub-menu
+│           ├── In progress  (only shown if active trip exists)
+│           │   └── Bike #, departure station, start time
+│           └── History ──→ Last 5 trips: date, station, cost, duration
 ├── Unlock Bike
 │   ├── Plate  ──→ TextPicker (type plate number)
-│   └── Unlock ──→ ProgressBar (verify) → Confirmation → ProgressBar (unlock) → Result
+│   └── Unlock ──→ [GPS refresh if stale] ──→ ProgressBar (verify)
+│               → Confirmation → ProgressBar (unlock) → Result
 └── Sign In / Sign Out
     ├── Email    ──→ TextPicker (native keyboard via phone)
     ├── Password ──→ TextPicker
@@ -323,13 +327,13 @@ bicimad/
 │   ├── bicimadApp.mc            # App entry point, token storage, session management
 │   ├── bicimadView.mc           # Main menu (Menu2) + delegate
 │   ├── BiciMadService.mc        # All API calls: login, stations, trips, check, unlock
-│   ├── StationsData.mc          # Static station coordinates (auto-generated, 632 stations)
 │   ├── StationListView.mc       # Station search: GPS proximity + name search
 │   ├── LoginView.mc             # Login form (Menu2 + TextPicker)
-│   ├── PlateSearchView.mc       # Unlock bike by plate: input → verify → confirm → result
-│   ├── TripsView.mc             # Trip history + active trip detail
+│   ├── PlateSearchView.mc       # Unlock bike by plate: input → GPS fix → verify → confirm → result
+│   ├── TripsView.mc             # Trips sub-menu: active trip detail + last 5 history
 │   ├── ReservationView.mc       # Station booking flow
-│   └── PositionManager.mc       # GPS location handler
+│   ├── ReservationDelegate.mc   # Reservation delegate
+│   └── PositionManager.mc       # GPS handler with freshness cache (10 min TTL)
 ├── resources/
 │   ├── strings/strings.xml      # Default strings (English fallback)
 │   ├── layouts/layout.xml       # Base layout

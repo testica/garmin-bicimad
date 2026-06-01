@@ -20,7 +20,10 @@ class BiciMadService {
     private const URL_CHECK   = PROXY_BASE + "/bicimad/api/check";
     private const URL_UNLOCK  = PROXY_BASE + "/bicimad/api/unlock";
 
-    // Last known user position (lat/lon) included in booking calls
+    // Last known user position (lat/lon) included in booking and unlock calls.
+    // Default = Puerta del Sol (Madrid city centre) — used only before any GPS
+    // fix has been acquired. The unlock flow always refreshes this via updateLocation()
+    // before calling the API, so this default is never sent during normal use.
     private var _lastLat as Double = 40.4168d;
     private var _lastLon as Double = -3.7038d;
 
@@ -52,8 +55,8 @@ class BiciMadService {
                 "appPlatform"        => "Android",
                 "appPlatformVersion" => "Android 12",
                 "appVersion"         => "5.0.0",
-                "deviceId"           => "garmin-watch-001",
-                "deviceModel"        => "{}",
+                "deviceId"           => getApp().getDeviceId(),
+                "deviceModel"        => getApp().getDeviceModel(),
                 "language"           => "ES",
                 "latitude"           => "40.416775",
                 "longitude"          => "-3.703790"
@@ -115,8 +118,8 @@ class BiciMadService {
                 "appPlatform"        => "Android",
                 "appPlatformVersion" => "Android 12",
                 "appVersion"         => "5.0.0",
-                "deviceId"           => "garmin-watch-001",
-                "deviceModel"        => "{}",
+                "deviceId"           => getApp().getDeviceId(),
+                "deviceModel"        => getApp().getDeviceModel(),
                 "language"           => "ES",
                 "latitude"           => "40.416775",
                 "longitude"          => "-3.703790"
@@ -304,7 +307,7 @@ class BiciMadService {
                 "userId"      => userId,
                 "latitude"    => _lastLat.format("%.6f"),
                 "longitude"   => _lastLon.format("%.6f"),
-                "deviceId"    => "garmin-watch-001",
+                "deviceId"    => getApp().getDeviceId(),
                 "appName"     => "BiciMAD",
                 "appPlatform" => "Android",
                 "appVersion"  => "5.0.0",
@@ -349,11 +352,13 @@ class BiciMadService {
         if (token == null || userId == null) { callback.invoke(false, (WatchUi.loadResource(Rez.Strings.MenuLoginSub) as String)); return; }
 
         var params = {
-            "plate"  => plate,
-            "token"  => token,
-            "userId" => userId,
-            "lat"    => _lastLat.format("%.6f"),
-            "lon"    => _lastLon.format("%.6f")
+            "plate"       => plate,
+            "token"       => token,
+            "userId"      => userId,
+            "lat"         => _lastLat.format("%.6f"),
+            "lon"         => _lastLon.format("%.6f"),
+            "deviceId"    => getApp().getDeviceId(),
+            "deviceModel" => getApp().getDeviceModel()
         };
         var options = {
             :method       => Communications.HTTP_REQUEST_METHOD_GET,
@@ -395,9 +400,11 @@ class BiciMadService {
 
         // Via proxy (apiemtpay.emtmadrid.es is not reachable from Garmin directly)
         var params = {
-            "plate"  => plate,
-            "token"  => token,
-            "userId" => userId
+            "plate"       => plate,
+            "token"       => token,
+            "userId"      => userId,
+            "deviceId"    => getApp().getDeviceId(),
+            "deviceModel" => getApp().getDeviceModel()
         };
         var options = {
             :method       => Communications.HTTP_REQUEST_METHOD_GET,
